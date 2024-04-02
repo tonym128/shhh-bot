@@ -20,12 +20,15 @@ def my_escape(name):
 
 API_KEY = os.getenv('SHHH_API_KEY')
 MY_CHAT_ID = os.getenv('SHHH_MY_CHAT_ID')
-
+logFormat = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format=logFormat,
     level=logging.INFO,
     filename="log.txt"
 )
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logging.Formatter(logFormat))
+logging.getLogger().addHandler(consoleHandler)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     txt = "Hi, I'm a bot who wants to help you keep quiet, let me take your voice notes and speech to text them!"
