@@ -61,6 +61,10 @@ Values should look something like this:
 - SHHH_API_KEY=1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 - SHHH_MY_CHAT_ID=12345678
 
+### Export built image to tar and upload directly to your server
+- ```docker save shhhbot:1.0 > shhhbot.tar```
+- Import image in Portainer by going to images and importing a new image from a tar file and upload with a name and tag eg shhhbot:1.0
+
 ## Build and push to DockerHub
 
     git clone https://github.com/tonym128/shhh-bot.git
