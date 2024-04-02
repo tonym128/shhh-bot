@@ -18,25 +18,24 @@ And now it's a Docker container, which should be able to run on a Pi, Mac and Wi
     - Send /newbot to BotFather and follow the instructions to create a new bot
     - Copy the API key and chat ID for your bot
     - Get your chat ID by going to saved messages in Telegram and copying the number https://web.telegram.org/a/#12345678 in this example your chat id would be 12345678
-    
-## Build and run Docker image
 
-    git clone https://github.com/tonym128/shhh-bot.git
-    cd shhh-bot
-    docker build -t shhhbot:1.0.
-    docker run --env SHHH_API_KEY={BOT_TOKEN} --env SHHH_MY_CHAT_ID={YOUR_CHAT_ID} --name shhhbot -i shhhbot:1.0
+## Change the model
+The repository is currently configured to use the base model, but you can change it to any other in the 
 
-Values should look something like this:
-## Build and run locally
+In the Dockerfile, you only need to change this line
 
-    git clone https://github.com/tonym128/shhh-bot.git
-    cd shhh-bot
-    docker build -t shhhbot:1.0.
-    docker run --env SHHH_API_KEY={BOT_TOKEN} --env SHHH_MY_CHAT_ID={YOUR_CHAT_ID} --name shhhbot -i shhhbot:1.0
+    ENV model="base"
 
-Values should look something like this:
-- SHHH_API_KEY=1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-- SHHH_MY_CHAT_ID=12345678
+"base" can be changed to any of the valid values accepted by whisper.cpp/models/download-ggml-model.sh
+
+- Whisper models
+    - tiny, tiny.en,tiny-q5_1, tiny.en-q5_1
+    - base, base.en, base-q5_1, base.en-q5_1
+    - small, small.en, small.en-tdrz, small-q5_1, small.en-q5_1
+    - medium, medium.en, medium-q5_0, medium.en-q5_0
+    - large-v1
+    - large-v2, large-v2-q5_0
+    - large-v3, large-v3-q5_0
 
 ## Docker Compose
     version: '3'
@@ -48,11 +47,24 @@ Values should look something like this:
         restart: unless-stopped
         image: tmamacos/shhhbot:1.0
         environment:
-        - SHHH_API_KEY={BOT_ID}:{BOT_KEY}
+        - SHHH_API_KEY={BOT_TOKEN}
         - SHHH_MY_CHAT_ID={YOUR_CHAT_ID}
+
+## Build and run Docker image
+
+    git clone https://github.com/tonym128/shhh-bot.git
+    cd shhh-bot
+    docker build -t shhhbot:1.0.
+    docker run --env SHHH_API_KEY={BOT_TOKEN} --env SHHH_MY_CHAT_ID={YOUR_CHAT_ID} --name shhhbot -i shhhbot:1.0
+
+Values should look something like this:
+- SHHH_API_KEY=1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+- SHHH_MY_CHAT_ID=12345678
 
 ## Build and push to DockerHub
 
+    git clone https://github.com/tonym128/shhh-bot.git
+    cd shhh-bot
     docker buildx create --name builder
     docker buildx use builder
     docker buildx inspect --bootstrap
