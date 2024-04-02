@@ -7,6 +7,10 @@ The setup is meant to be as simple and quick as possible, so it's not meant for 
 
 Tested on AMD64, provided build scripts for ARM64 and ARM32v7.
 
+This was originally a Raspberry Pi 4 project I wrote and was manually running on a Pi. You can see a video about that here - https://www.youtube.com/watch?v=MjLzgebcDHo
+
+And now it's a Docker container, which should be able to run on a Pi, Mac and Windows PC!
+
 # Setup
 ## Create a Telegram Bot
 - Create a new bot on Telegram and get the API key and chat ID for your bot.
