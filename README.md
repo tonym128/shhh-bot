@@ -20,7 +20,7 @@ And now it's a Docker container, which should be able to run on a Pi, Mac and Wi
     - Get your chat ID by going to saved messages in Telegram and copying the number https://web.telegram.org/a/#12345678 in this example your chat id would be 12345678
 
 ## Change the model
-The repository is currently configured to use the base model, but you can change it to any other in the 
+The repository is currently configured to use the base model, but you can change it to any other supported model. 
 
 In the Dockerfile, you only need to change this line
 
