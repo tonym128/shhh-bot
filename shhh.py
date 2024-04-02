@@ -1,34 +1,34 @@
 import logging
 import logging.handlers
-#import pprint
-from telegram import Update #, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
 import os
-#import shlex
 from subprocess import Popen, PIPE
 import time
 import dbm
 import uuid
 import re
 
-_to_esc = re.compile(r'\s|[]()[]')
-def _esc_char(match):
-    return '\\' + match.group(0)
- 
-def my_escape(name):
-    return _to_esc.sub(_esc_char, name)
-
 API_KEY = os.getenv('SHHH_API_KEY')
 MY_CHAT_ID = os.getenv('SHHH_MY_CHAT_ID')
+
 logFormat = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(
     format=logFormat,
     level=logging.INFO,
-    filename="log.txt"
 )
-consoleHandler = logging.StreamHandler()
-consoleHandler.setFormatter(logging.Formatter(logFormat))
-logging.getLogger().addHandler(consoleHandler)
+
+httpx_logger = logging.getLogger("httpx")
+
+# Set the logging level to WARNING to ignore INFO and DEBUG logs
+httpx_logger.setLevel(logging.WARNING)
+
+_to_esc = re.compile(r'\s|[]()[]')
+def _esc_char(match):
+    return '\\' + match.group(0)
+
+def my_escape(name):
+    return _to_esc.sub(_esc_char, name)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     txt = "Hi, I'm a bot who wants to help you keep quiet, let me take your voice notes and speech to text them!"
@@ -102,12 +102,12 @@ async def handle_message(update, context):
         db.close()
 
         await context.bot.send_message(chat_id=MY_CHAT_ID, text=logline)
-    except:
+    except Exception as e :
         end = time.time()
         logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL UNKNOWN : Failed processing message")
+        logging.log(logging.ERROR,str(e))
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Failure processing your message")
         await context.bot.send_message(chat_id=MY_CHAT_ID, text="Failure processing your message")
-
 
 if __name__ == '__main__':
     exitt = False
