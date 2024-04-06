@@ -45,7 +45,7 @@ In the Dockerfile, you only need to change this line
         container_name: shhhbot
         hostname: shhhbot
         restart: unless-stopped
-        image: tmamacos/shhhbot:1.0
+        image: ghcr.io/tonym128/shhh-bot:main
         environment:
         - SHHH_API_KEY={BOT_TOKEN}
         - SHHH_MY_CHAT_ID={YOUR_CHAT_ID}
