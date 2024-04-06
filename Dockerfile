@@ -20,6 +20,7 @@ WORKDIR /usr/local
 
 # Telegram Bot Image
 FROM python:3.9.13-alpine
+LABEL org.opencontainers.image.description  A Telegram Bot to convert speech to text from small videos and audio files. 
 WORKDIR /usr/local/src/
 RUN apk update && apk add --no-cache ffmpeg
 
