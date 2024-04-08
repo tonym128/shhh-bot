@@ -38,7 +38,7 @@ def checkUser(chat_id: str):
     if chat_id in allow_list:
         return True
 
-    logging.info("SHHH_ALLOWED_CHAT_IDS : Not processing for %s \nAllowList %s", update.effective_chat.id, allow_list)
+    logging.info("SHHH_ALLOWED_CHAT_IDS : Not processing for %s \nAllowList %s", chat_id, allow_list)
     return False
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
