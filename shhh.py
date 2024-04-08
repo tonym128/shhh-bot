@@ -34,10 +34,11 @@ def my_escape(name):
 def checkUser(chat_id: str):
     if ALLOWED_CHAT_IDS is None:
         return True
-    allow_list = ALLOWED_CHAT_IDS.split(",")
+    allow_list = ALLOWED_CHAT_IDS.split()
     if chat_id in allow_list:
         return True
 
+    logging.info("SHHH_ALLOWED_CHAT_IDS : Not processing for %s \nAllowList %s", update.effective_chat.id, allow_list)
     return False
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -139,6 +140,8 @@ if __name__ == '__main__':
     if API_KEY == None:
         logging.info("SHHH_API_KEY must be defined")
         exitt = True
+    logging.info("SHHH_MY_CHAT_ID       : %s", MY_CHAT_ID)
+    logging.info("SHHH_ALLOWED_CHAT_IDS : %s", ALLOWED_CHAT_IDS)
 
     if not exitt:
         application = ApplicationBuilder().token(API_KEY).build()
