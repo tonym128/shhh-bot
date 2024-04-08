@@ -3,7 +3,7 @@
 
 # Whisper Builder image
 FROM python:3.9.13-alpine as builder
-ENV model="base"
+ENV model="medium"
 WORKDIR /usr/local/src
 RUN apk update
 RUN apk add git make g++ vim wget --upgrade bash
