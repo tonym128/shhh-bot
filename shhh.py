@@ -59,7 +59,7 @@ async def handle_message(update, context):
     chat_id = update.message.chat_id
 
     if not checkUser(update.effective_chat.id):
-        logging.info("Not processing for " + username + " : " + update.effective_chat.id)
+        logging.info("Not processing for %s : %s", username, update.effective_chat.id)
         if MY_CHAT_ID is not None:
             await context.bot.send_message(chat_id=MY_CHAT_ID, text="Started processing for "+username)
         return
