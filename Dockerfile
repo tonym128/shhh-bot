@@ -1,9 +1,9 @@
-# Model
-# Options as per download-ggml-model.sh eg tiny, base, large-v1, large-v2, large-v2
-
 # Whisper Builder image
 FROM python:3.9.13-alpine as builder
-ENV model="base"
+# Model
+# default to base
+# Options as per download-ggml-model.sh eg tiny, base, large-v1, large-v2, large-v2, 
+ARG model=base
 WORKDIR /usr/local/src
 RUN apk update
 RUN apk add git make g++ vim wget --upgrade bash
