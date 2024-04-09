@@ -45,10 +45,12 @@ In the Dockerfile, you only need to change this line
         container_name: shhhbot
         hostname: shhhbot
         restart: unless-stopped
-        image: ghcr.io/tonym128/shhh-bot:v1.0.0
+        image: ghcr.io/tonym128/shhh-bot
         environment:
         - SHHH_API_KEY={BOT_TOKEN}
-        - SHHH_MY_CHAT_ID={YOUR_CHAT_ID}
+        # Optional
+        - SHHH_MY_CHAT_ID={YOUR_CHAT_ID} 
+        - SHHH_ALLOWED_CHAT_IDS={YOUR_CHAT_ID ANOTHER_CHAT_ID ANOTHER_CHAT_ID}
 
 ## Build and run Docker image
 
@@ -59,7 +61,12 @@ In the Dockerfile, you only need to change this line
 
 Values should look something like this:
 - SHHH_API_KEY=1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-- SHHH_MY_CHAT_ID=12345678
+
+The following two are optional:
+Admin chat id for receiving messages:
+    - SHHH_MY_CHAT_ID=12345678
+Space seperated list of chat id's that are allowed to talk to your service:
+    - SHHH_ALLOWED_CHAT_IDS={YOUR_CHAT_ID ANOTHER_CHAT_ID ANOTHER_CHAT_ID}
 
 ### Export built image to tar and upload directly to your server
 - ```docker save shhhbot:1.0 > shhhbot.tar```
