@@ -35,7 +35,7 @@ def checkUser(chat_id: str):
     if ALLOWED_CHAT_IDS is None:
         return True
     allow_list = ALLOWED_CHAT_IDS.split()
-    if allow_list.count(chat_id) > 0:
+    if any(chat_id == value for value in allow_list):
         return True
 
     logging.info("SHHH_ALLOWED_CHAT_IDS : Not processing for %s \nAllowList %s", chat_id, allow_list)
