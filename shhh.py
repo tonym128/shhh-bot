@@ -67,14 +67,14 @@ class ShhBot:
         txt = "Hi, I'm a bot who wants to help you keep quiet, let me take your voice notes and speech to text them!"
         await context.bot.send_message(chat_id=update.effective_chat.id, text=txt)
         if self.MY_CHAT_ID is not None:
-            await context.bot.send_message(chat_id=MY_CHAT_ID, text=txt)
+            await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=txt)
         logging.info("start - effective chat id: %s - txt: %s", update.effective_chat.id, txt)
 
     async def unknown(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "Sorry, I didn't understand that command."
         await context.bot.send_message(chat_id=update.effective_chat.id, text=txt)
         if self.MY_CHAT_ID is not None:
-            await context.bot.send_message(chat_id=MY_CHAT_ID, text=txt)
+            await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=txt)
         logging.info("unknown - effective chat id: %s - txt: %s", update.effective_chat.id, txt)
 
     async def handle_message(self, update, context):
@@ -111,7 +111,7 @@ class ShhBot:
                     logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL TIME : " + str(update.message.effective_attachment.duration) + " Cannot process audio longer than 60 seconds")
                     await context.bot.send_message(chat_id=update.effective_chat.id, text="Cannot process audio longer than 600 seconds")
                     if self.MY_CHAT_ID is not None:
-                        await context.bot.send_message(chat_id=MY_CHAT_ID, text="Cannot process audio longer than 600 seconds")
+                        await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Cannot process audio longer than 600 seconds")
                     return
             except:
                 end = time.time()
@@ -124,7 +124,7 @@ class ShhBot:
             # Download and process
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
             filename = str(source_file)
-            cmd = 'sh ./convert.sh '+my_escape(filename) + " >> convert.log"
+            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " >> convert.log"
             process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
             process.wait()
 
@@ -147,15 +147,15 @@ class ShhBot:
             db[str(username)] = str(value)
             db.close()
 
-            if MY_CHAT_ID is not None:
-                await context.bot.send_message(chat_id=MY_CHAT_ID, text=logline)
+            if self.MY_CHAT_ID is not None:
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=logline)
         except Exception as e :
             end = time.time()
             logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL UNKNOWN : Failed processing message")
             logging.log(logging.ERROR,str(e))
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Failure processing your message")
-            if MY_CHAT_ID is not None:
-                await context.bot.send_message(chat_id=MY_CHAT_ID, text="Failure processing your message")
+            if self.MY_CHAT_ID is not None:
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Failure processing your message")
 
 if __name__ == '__main__':
     shhBot = ShhBot()
