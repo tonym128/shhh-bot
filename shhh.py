@@ -25,6 +25,28 @@ class ShhBot:
     # Set the logging level to WARNING to ignore INFO and DEBUG logs
     httpx_logger.setLevel(logging.WARNING)
 
+    def startBot(self):
+        exitt = False
+        if self.API_KEY == None:
+            logging.info("SHHH_API_KEY must be defined")
+            exitt = True
+        logging.info("SHHH_MY_CHAT_ID       : %s", self.MY_CHAT_ID)
+        logging.info("SHHH_ALLOWED_CHAT_IDS : %s", self.ALLOWED_CHAT_IDS)
+
+        if not exitt:
+            application = ApplicationBuilder().token(self.API_KEY).build()
+            logging.info("Starting bot")
+            start_handler = CommandHandler("start", self.start)
+            application.add_handler(start_handler)
+            unknown_handler = MessageHandler(filters.COMMAND, self.unknown)
+            application.add_handler(unknown_handler)
+
+            application.add_handler(MessageHandler(filters.ATTACHMENT, self.handle_message))
+            application.run_polling(allowed_updates=Update.ALL_TYPES)
+            logging.info("Bot await messages")
+        else:
+            logging.info("Failed to run, please resolve exports issue and run again")
+
     def _esc_char(self,match):
         return '\\' + match.group(0)
 
@@ -41,13 +63,6 @@ class ShhBot:
         logging.info("SHHH_ALLOWED_CHAT_IDS : Not processing for %s \nAllowList %s", chat_id, allow_list)
         return False
 
-    def test_checkUser(self): 
-        self.assertTrue(self.checkUser("1234567890", None)) 
-        self.assertTrue(self.checkUser("1234567890", "1234567890")) 
-        self.assertFalse(self.checkUser("1234567890", "1234567891")) 
-        self.assertTrue(self.checkUser("1234567890", "1234567890 1234567891")) 
-        self.assertFalse(self.checkUser("1234567890", "1234567892 1234567891"))
-
     async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "Hi, I'm a bot who wants to help you keep quiet, let me take your voice notes and speech to text them!"
         await context.bot.send_message(chat_id=update.effective_chat.id, text=txt)
@@ -55,7 +70,7 @@ class ShhBot:
             await context.bot.send_message(chat_id=MY_CHAT_ID, text=txt)
         logging.info("start - effective chat id: %s - txt: %s", update.effective_chat.id, txt)
 
-    async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def unknown(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "Sorry, I didn't understand that command."
         await context.bot.send_message(chat_id=update.effective_chat.id, text=txt)
         if self.MY_CHAT_ID is not None:
@@ -147,27 +162,4 @@ if __name__ == '__main__':
     shhBot.API_KEY = os.getenv('SHHH_API_KEY')
     shhBot.MY_CHAT_ID = os.getenv('SHHH_MY_CHAT_ID')
     shhBot.ALLOWED_CHAT_IDS = os.getenv('SHHH_ALLOWED_CHAT_IDS')
-
-    exitt = False
-    if API_KEY == None:
-        logging.info("SHHH_API_KEY must be defined")
-        exitt = True
-    logging.info("SHHH_MY_CHAT_ID       : %s", MY_CHAT_ID)
-    logging.info("SHHH_ALLOWED_CHAT_IDS : %s", ALLOWED_CHAT_IDS)
-
-    if not exitt:
-        
-        shhBot.run()
-
-        application = ApplicationBuilder().token(API_KEY).build()
-        logging.info("Starting bot")
-        start_handler = CommandHandler("start", start)
-        application.add_handler(start_handler)
-        unknown_handler = MessageHandler(filters.COMMAND, unknown)
-        application.add_handler(unknown_handler)
-
-        application.add_handler(MessageHandler(filters.ATTACHMENT, handle_message))
-        application.run_polling(allowed_updates=Update.ALL_TYPES)
-        logging.info("Bot await messages")
-    else:
-        logging.info("Failed to run, please resolve exports issue and run again")
+    shhBot.startBot()
