@@ -12,6 +12,7 @@ fi
 
 if ! cmp -s "$model" /usr/local/src/models/ggml-model.bin; then
     echo "Link model to whisper one"
+    rm /usr/local/src/models/ggml-model.bin
     ln -s $model /usr/local/src/models/ggml-model.bin
     echo "Complete"
 fi
