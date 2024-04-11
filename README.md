@@ -55,10 +55,10 @@ In the Dockerfile, you only need to change this line
         # - SHHH_ALLOWED_CHAT_IDS={YOUR_CHAT_ID ANOTHER_CHAT_ID ANOTHER_CHAT_ID}
         # - SHHH_WHISPER_MODEL=medium 
         # - SHHH_WHISPER_OPTIONS=-l nl
+        volumes:
+          - models:/models
     volumes:
-      - models:/models
-volumes:
-  models:
+      models:
 
 ### Environment Options
 #### SHHH_API_KEY={BOT_TOKEN}
