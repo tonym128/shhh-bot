@@ -41,7 +41,7 @@ class ShhBot:
                 cmd = 'sh ./download.sh '+ self.WHISPER_MODEL + " >> /tmp/download.log"
                 process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
                 process.wait()
-                with open("/tmp/convert.log", "r") as f:
+                with open("/tmp/download.log", "r") as f:
                     contents = f.read()
                 logging.log(logging.INFO, contents)
 
