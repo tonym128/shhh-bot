@@ -38,7 +38,7 @@ class ShhBot:
         if not exitt:
             if self.WHISPER_MODEL != None:
                 logging.log(logging.INFO, "Download Whisper Model " + self.WHISPER_MODEL)
-                cmd = 'sh ./download.sh '+ self.WHISPER_MODEL + " >> /tmp/download.log"
+                cmd = 'sh ./download.sh '+ self.WHISPER_MODEL + " > /tmp/download.log 2>&1"
                 process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
                 process.wait()
                 with open("/tmp/download.log", "r") as f:
@@ -135,7 +135,7 @@ class ShhBot:
             # Download and process
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
             filename = str(source_file)
-            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " >> /tmp/convert.log"
+            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " > /tmp/convert.log 2>&1"
             process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
             process.wait()
 
