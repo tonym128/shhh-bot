@@ -9,7 +9,7 @@ else
   /usr/local/src/models/download-ggml-model.sh "$SHHH_WHISPER_MODEL"
 fi
 
-if cmp -s "$model" /usr/local/src/models/ggml-model.bin; then
+if ! cmp -s "$model" /usr/local/src/models/ggml-model.bin; then
     echo "Copy model to replace existing one"
     cp $model /usr/local/src/models/ggml-model.bin
     echo "Complete"
