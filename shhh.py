@@ -13,6 +13,7 @@ class ShhBot:
     API_KEY: str
     MY_CHAT_ID: str
     ALLOWED_CHAT_IDS: str
+    WHISPER_MODEL: str
 
     logFormat = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(
@@ -32,8 +33,14 @@ class ShhBot:
             exitt = True
         logging.info("SHHH_MY_CHAT_ID       : %s", self.MY_CHAT_ID)
         logging.info("SHHH_ALLOWED_CHAT_IDS : %s", self.ALLOWED_CHAT_IDS)
+        logging.info("SHHH_WHISPER_MODEL : %s", self.WHISPER_MODEL)
 
         if not exitt:
+            if self.WHISPER_MODEL != None:
+                cmd = 'sh ./download.sh '+self.WHISPER_MODEL + " >> download.log"
+                process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
+                process.wait()
+
             application = ApplicationBuilder().token(self.API_KEY).build()
             logging.info("Starting bot")
             start_handler = CommandHandler("start", self.start)
@@ -162,4 +169,5 @@ if __name__ == '__main__':
     shhBot.API_KEY = os.getenv('SHHH_API_KEY')
     shhBot.MY_CHAT_ID = os.getenv('SHHH_MY_CHAT_ID')
     shhBot.ALLOWED_CHAT_IDS = os.getenv('SHHH_ALLOWED_CHAT_IDS')
+    shhBot.WHISPER_MODEL = os.getenv('SHHH_WHISPER_MODEL')
     shhBot.startBot()

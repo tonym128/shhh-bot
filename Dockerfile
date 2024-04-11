@@ -24,11 +24,13 @@ RUN apk update && apk add --no-cache ffmpeg
 
 # Copy whisper binary and model
 COPY --from=builder /usr/local/src/whisper.cpp/main whisper
+COPY --from=builder /usr/local/src/whisper.cpp/models/download-ggml-model.sh download-ggml-model.sh
 COPY --from=builder  /usr/local/src/whisper.cpp/models/ggml-model.bin ./models/ggml-model.bin
 
 # Copy shhh.bot to the container
 COPY shhh.py .
 COPY convert.sh .
+COPY download.sh .
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 # Run bot when container starts
