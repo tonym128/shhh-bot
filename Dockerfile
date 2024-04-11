@@ -37,5 +37,6 @@ RUN pip install -r requirements.txt
 COPY convert.sh .
 COPY download.sh .
 
+RUN chmod +x *.sh
 # Run bot when container starts
 ENTRYPOINT [ "python", "shhh.py" ]
