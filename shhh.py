@@ -37,9 +37,13 @@ class ShhBot:
 
         if not exitt:
             if self.WHISPER_MODEL != None:
-                cmd = 'sh ./download.sh '+self.WHISPER_MODEL + " >> download.log"
+                logging.log(logging.INFO, "Download Whisper Model " + self.WHISPER_MODEL)
+                cmd = 'sh ./download.sh '+ self.WHISPER_MODEL + " >> /tmp/download.log"
                 process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
                 process.wait()
+                with open("/tmp/convert.log", "r") as f:
+                    contents = f.read()
+                logging.log(logging.INFO, contents)
 
             application = ApplicationBuilder().token(self.API_KEY).build()
             logging.info("Starting bot")
@@ -131,7 +135,7 @@ class ShhBot:
             # Download and process
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
             filename = str(source_file)
-            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " >> convert.log"
+            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " >> /tmp/convert.log"
             process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
             process.wait()
 
@@ -157,12 +161,18 @@ class ShhBot:
             if self.MY_CHAT_ID is not None:
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=logline)
         except Exception as e :
+            with open("/tmp/convert.log", "r") as f:
+                contents = f.read()
             end = time.time()
             logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL UNKNOWN : Failed processing message")
             logging.log(logging.ERROR,str(e))
+            logging.log(logging.ERROR,contents)
+
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Failure processing your message")
             if self.MY_CHAT_ID is not None:
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Failure processing your message")
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=str(e))
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=contents)
 
 if __name__ == '__main__':
     shhBot = ShhBot()
