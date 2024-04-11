@@ -29,10 +29,12 @@ RUN dos2unix /models/download-ggml-model.sh
 RUN /models/download-ggml-model.sh $model
 RUN ln -s /models/ggml-$model.bin ./models/ggml-model.bin
 
-# Copy shhh.bot to the container
-COPY shhh.py .
+# Install python requirements
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+
+# Copy shhh.bot to the container
+COPY shhh.py .
 
 COPY convert.sh .
 COPY download.sh .

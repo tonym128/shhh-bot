@@ -94,12 +94,11 @@ class ShhBot:
 
     async def handle_message(self, update, context):
         username = str(update.message.chat.username)
-        chat_id = update.message.chat_id
 
-        if not self.checkUser(chat_id, self.ALLOWED_CHAT_IDS):
-            logging.info("Not processing for %s : %s", username, chat_id)
+        if not self.checkUser(str(update.effective_chat.id), str(self.ALLOWED_CHAT_IDS)):
+            logging.info("Not processing for %s : %s", username, update.effective_chat.id)
             if self.MY_CHAT_ID is not None:
-                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Not processing for {0}:{1}".format(username, chat_id))
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Not processing for {0} : {1}".format(username,update.effective_chat.id))
             return
 
         start = time.time()
@@ -113,7 +112,7 @@ class ShhBot:
             # File Size Check 50mb
             if file.file_size > 50*1024*1024:
                 end = time.time()
-                logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(chat_id) + ": FAIL SIZE : " + str(file.file_size) + "Message was too big for processing, there is a 50mb limit")
+                logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(update.effective_chat.id) + ": FAIL SIZE : " + str(file.file_size) + "Message was too big for processing, there is a 50mb limit")
                 await context.bot.send_message(chat_id=update.effective_chat.id, text="Message was too big for processing, there is a 50mb limit")
                 if self.MY_CHAT_ID is not None:
                     await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Message was too big for processing, there is a 50mb limit")
@@ -123,14 +122,14 @@ class ShhBot:
             try:
                 if update.message.effective_attachment.duration > 650:
                     end = time.time()
-                    logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL TIME : " + str(update.message.effective_attachment.duration) + " Cannot process audio longer than 60 seconds")
+                    logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : FAIL TIME : " + str(update.message.effective_attachment.duration) + " Cannot process audio longer than 60 seconds")
                     await context.bot.send_message(chat_id=update.effective_chat.id, text="Cannot process audio longer than 600 seconds")
                     if self.MY_CHAT_ID is not None:
                         await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Cannot process audio longer than 600 seconds")
                     return
             except:
                 end = time.time()
-                logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL NOTIME : Does not look like a type I can process, exiting")
+                logging.log(logging.INFO,str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : FAIL NOTIME : Does not look like a type I can process, exiting")
                 await context.bot.send_message(chat_id=update.effective_chat.id, text="Does not look like a type I can process, exiting")
                 if self.MY_CHAT_ID is not None:
                     await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Does not look like a type I can process, exiting")
@@ -151,7 +150,7 @@ class ShhBot:
             os.remove(filename+".wav.txt")
             logging.log(logging.INFO,text)
             end = time.time()
-            logline = str(end-start) + " " + username + " : " + str(chat_id)  + " : SUCCESS : " + str(update.message.effective_attachment.duration)
+            logline = str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : SUCCESS : " + str(update.message.effective_attachment.duration)
             logging.log(logging.INFO,logline)
             await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
@@ -168,7 +167,7 @@ class ShhBot:
             with open("/tmp/convert.log", "r") as f:
                 contents = f.read()
             end = time.time()
-            logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(chat_id)  + " : FAIL UNKNOWN : Failed processing message")
+            logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : FAIL UNKNOWN : Failed processing message")
             logging.log(logging.ERROR,str(e))
             logging.log(logging.ERROR,contents)
 
