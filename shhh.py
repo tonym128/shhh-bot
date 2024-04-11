@@ -67,7 +67,7 @@ class ShhBot:
     def checkUser(self, chat_id: str, allowed_chat_id_string: str):
         if allowed_chat_id_string is None:
             return True
-        allow_list = allowed_chat_id_string.split()
+        allow_list = allowed_chat_id_string.split(' ')
         if any(chat_id == value for value in allow_list):
             return True
 
@@ -95,7 +95,7 @@ class ShhBot:
         if not self.checkUser(update.effective_chat.id, self.ALLOWED_CHAT_IDS):
             logging.info("Not processing for %s : %s", username, update.effective_chat.id)
             if self.MY_CHAT_ID is not None:
-                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Started processing for "+username)
+                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Not processing for "+username)
             return
 
         start = time.time()
