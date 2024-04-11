@@ -14,6 +14,7 @@ class ShhBot:
     MY_CHAT_ID: str
     ALLOWED_CHAT_IDS: str
     WHISPER_MODEL: str
+    WHISPER_OPTIONS: str
 
     logFormat = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(
@@ -33,7 +34,8 @@ class ShhBot:
             exitt = True
         logging.info("SHHH_MY_CHAT_ID       : %s", self.MY_CHAT_ID)
         logging.info("SHHH_ALLOWED_CHAT_IDS : %s", self.ALLOWED_CHAT_IDS)
-        logging.info("SHHH_WHISPER_MODEL : %s", self.WHISPER_MODEL)
+        logging.info("SHHH_WHISPER_MODEL    : %s", self.WHISPER_MODEL)
+        logging.info("SHHH_WHISPER_OPTIONS  : %s", self.WHISPER_OPTIONS)
 
         if not exitt:
             if self.WHISPER_MODEL != None:
@@ -180,4 +182,5 @@ if __name__ == '__main__':
     shhBot.MY_CHAT_ID = os.getenv('SHHH_MY_CHAT_ID')
     shhBot.ALLOWED_CHAT_IDS = os.getenv('SHHH_ALLOWED_CHAT_IDS')
     shhBot.WHISPER_MODEL = os.getenv('SHHH_WHISPER_MODEL')
+    shhBot.WHISPER_OPTIONS = os.getenv('SHHH_WHISPER_OPTIONS')
     shhBot.startBot()
