@@ -95,7 +95,7 @@ class ShhBot:
     async def handle_message(self, update, context):
         username = str(update.message.chat.username)
 
-        if not self.checkUser(str(update.effective_chat.id), str(self.ALLOWED_CHAT_IDS)):
+        if not self.checkUser(str(update.effective_chat.id), self.ALLOWED_CHAT_IDS):
             logging.info("Not processing for %s : %s", username, update.effective_chat.id)
             if self.MY_CHAT_ID is not None:
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Not processing for {0} : {1}".format(username,update.effective_chat.id))
