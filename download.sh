@@ -1,13 +1,16 @@
 echo "Running Model Download"
-model=/tmp/model/ggml-"$1".bin
+model=/usr/local/src/models/ggml-"$SHHH_WHISPER_MODEL".bin
+echo $model
+
 if test -f "$model"; then
   echo "Model exists."
 else
   echo "Model does not exist. Downloading"
-  cp /usr/local/src/download-ggml-model.sh /tmp/
-  /tmp/download-ggml-model.sh $1
+  /usr/local/src/models/download-ggml-model.sh "$SHHH_WHISPER_MODEL"
 fi
 
-echo "Copy model to replace existing one"
-cp /tmp/ggml-$1.bin /usr/local/src/models/ggml-model.bin
-echo "Complete"
+if cmp -s "$model" /usr/local/src/models/ggml-model.bin; then
+    echo "Copy model to replace existing one"
+    cp $model /usr/local/src/models/ggml-model.bin
+    echo "Complete"
+fi

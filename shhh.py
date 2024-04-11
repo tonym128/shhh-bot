@@ -39,10 +39,12 @@ class ShhBot:
 
         if not exitt:
             if self.WHISPER_MODEL != None:
-                logging.log(logging.INFO, "Download Whisper Model " + self.WHISPER_MODEL)
-                cmd = 'sh ./download.sh '+ self.WHISPER_MODEL + " &> /tmp/download.log"
-                process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
+                logging.log(logging.INFO, "Download Whisper Model : " + self.WHISPER_MODEL)
+                outfile = open('/tmp/download.log','w') #same with "w" or "a" as opening mode
+                cmd = './download.sh'
+                process = Popen(cmd, stdout=outfile, stderr=outfile,shell=True)
                 process.wait()
+                outfile.close()
                 with open("/tmp/download.log", "r") as f:
                     contents = f.read()
                 logging.log(logging.INFO, contents)
