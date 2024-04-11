@@ -9,5 +9,5 @@ else
 fi
 
 echo "Copy model to replace existing one"
-cp /usr/local/src/ggml-$1.bin /usr/local/src/models/ggml-model.bin
+cp /tmp/ggml-$1.bin /usr/local/src/models/ggml-model.bin
 echo "Complete"
