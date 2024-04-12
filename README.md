@@ -7,6 +7,8 @@ The setup is meant to be as simple and quick as possible, so it's not meant for 
 
 Tested on AMD64, provided build scripts for ARM64 and ARM32v7.
 
+There's a YouTube video of a full build, source and setup run through - https://youtu.be/Vo4OVdDRlcU
+
 This was originally a Raspberry Pi 4 project I wrote and was manually running on a Pi. You can see a video about that here - https://www.youtube.com/watch?v=MjLzgebcDHo
 
 And now it's a Docker container, which can run on a Pi, Mac and Windows PC!
