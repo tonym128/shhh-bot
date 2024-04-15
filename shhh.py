@@ -138,7 +138,7 @@ class ShhBot:
 
             # Download and process
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
-            filename = str(source_file)
+            filename = "/tmp/"+fileid
             logging.log(logging.INFO,"Downloaded "+ filename)
             outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
             cmd = './convert.sh'
