@@ -166,18 +166,25 @@ class ShhBot:
             if self.MY_CHAT_ID is not None:
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=logline)
         except Exception as e :
-            with open("/tmp/convert.log", "r") as f:
-                contents = f.read()
             end = time.time()
             logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : FAIL UNKNOWN : Failed processing message")
             logging.log(logging.ERROR,str(e))
-            logging.log(logging.ERROR,contents)
+
 
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Failure processing your message")
             if self.MY_CHAT_ID is not None:
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Failure processing your message")
                 await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=str(e))
-                await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=contents)
+            try:
+                with open("/tmp/convert.log", "r") as f:
+                    contents = f.read()
+                logging.log(logging.ERROR,contents)
+                if self.MY_CHAT_ID is not None:
+                    await context.bot.send_message(chat_id=self.MY_CHAT_ID, text=contents)
+            except:
+                logging.log(logging.ERROR,"Failed to read convert.log")
+                if self.MY_CHAT_ID is not None:
+                    await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Failed to read convert.log")
 
 if __name__ == '__main__':
     shhBot = ShhBot()
