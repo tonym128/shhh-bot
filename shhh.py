@@ -3,7 +3,7 @@ import logging.handlers
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
 import os
-from subprocess import Popen, PIPE
+import subprocess
 import time
 import dbm
 import uuid
@@ -43,8 +43,7 @@ class ShhBot:
                 logging.log(logging.INFO, "Download Whisper Model : " + self.WHISPER_MODEL)
                 outfile = open('/tmp/download.log','w') #same with "w" or "a" as opening mode
                 cmd = './download.sh'
-                process = Popen(cmd, stdout=outfile, stderr=outfile,shell=True)
-                process.wait()
+                subprocess.Run(cmd, stdout=outfile, stderr=outfile,shell=True)
                 outfile.close()
                 with open("/tmp/download.log", "r") as f:
                     contents = f.read()
@@ -103,7 +102,7 @@ class ShhBot:
             return
 
         start = time.time()
-        fileid = uuid.uuid4().hex
+        input_file = "/tmp/media"
         logging.info("Started processing for "+username)
         if self.MY_CHAT_ID is not None:
             await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Started processing for "+username)
@@ -137,13 +136,11 @@ class ShhBot:
                 return
 
             # Download and process
-            source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
-            filename = "/tmp/"+fileid
-            logging.log(logging.INFO,"Downloaded "+ filename)
+            await file.download_to_drive(custom_path=input_file)
+            logging.log(logging.INFO,"Downloaded "+ input_file)
             outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
             cmd = './convert.sh'
-            process = Popen([cmd, filename],  stdout=outfile, stderr=outfile,shell=False)
-            process.wait()
+            subprocess.Run([cmd],  stdout=outfile, stderr=outfile,shell=True)
             outfile.close()
 
             result = open(filename+".wav.txt", "r")
