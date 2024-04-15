@@ -48,7 +48,7 @@ class ShhBot:
                 logging.log(logging.INFO, "Download Whisper Model : " + self.WHISPER_MODEL)
                 outfile = open('/tmp/download.log','w') #same with "w" or "a" as opening mode
                 cmd = './download.sh'
-                subprocess.Run(cmd, stdout=outfile, stderr=outfile,shell=True)
+                subprocess.run(cmd, stdout=outfile, stderr=outfile,shell=True)
                 outfile.close()
                 with open("/tmp/download.log", "r") as f:
                     contents = f.read()
@@ -150,7 +150,7 @@ class ShhBot:
             logging.log(logging.INFO,"Downloaded "+ input_file)
             outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
             cmd = './convert.sh'
-            subprocess.Run([cmd],  stdout=outfile, stderr=outfile,shell=True)
+            subprocess.run([cmd],  stdout=outfile, stderr=outfile,shell=True)
             outfile.close()
 
             result = open(input_file+".wav.txt", "r")
