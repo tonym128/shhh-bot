@@ -138,9 +138,11 @@ class ShhBot:
             # Download and process
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
             filename = str(source_file)
-            cmd = 'sh ./convert.sh '+self.my_escape(filename) + " &> /tmp/convert.log"
-            process = Popen(cmd.split(), stdout=PIPE, stderr=PIPE)
+            outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
+            cmd = 'sh ./convert.sh '+self.my_escape(filename)
+            process = Popen(cmd.split(),  stdout=outfile, stderr=outfile,shell=True)
             process.wait()
+            outfile.close()
 
             result = open(filename+".wav.txt", "r")
             text = result.read()
