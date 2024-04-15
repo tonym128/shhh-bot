@@ -134,6 +134,11 @@ class ShhBot:
                     await context.bot.send_message(chat_id=self.MY_CHAT_ID, text="Does not look like a type I can process, exiting")
                 return
 
+            # Cleanup
+            os.remove(input_file)
+            os.remove(input_file+".wav")
+            os.remove(input_file+".wav.txt")
+
             # Download and process
             await file.download_to_drive(custom_path=input_file)
             logging.log(logging.INFO,"Downloaded "+ input_file)
