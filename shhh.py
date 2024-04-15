@@ -8,7 +8,6 @@ import time
 import dbm
 import uuid
 import re
-import shlex
 
 class ShhBot:
     API_KEY: str
@@ -143,12 +142,12 @@ class ShhBot:
             subprocess.Run([cmd],  stdout=outfile, stderr=outfile,shell=True)
             outfile.close()
 
-            result = open(filename+".wav.txt", "r")
+            result = open(input_file+".wav.txt", "r")
             text = result.read()
             result.close()
-            os.remove(filename)
-            os.remove(filename+".wav")
-            os.remove(filename+".wav.txt")
+            os.remove(input_file)
+            os.remove(input_file+".wav")
+            os.remove(input_file+".wav.txt")
             logging.log(logging.INFO,text)
             end = time.time()
             logline = str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : SUCCESS : " + str(update.message.effective_attachment.duration)
@@ -168,7 +167,6 @@ class ShhBot:
             end = time.time()
             logging.log(logging.ERROR,str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : FAIL UNKNOWN : Failed processing message")
             logging.log(logging.ERROR,str(e))
-
 
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Failure processing your message")
             if self.MY_CHAT_ID is not None:
