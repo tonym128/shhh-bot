@@ -28,10 +28,10 @@ class ShhBot:
     httpx_logger.setLevel(logging.WARNING)
 
     def removefile(self, f):
-    try:
-        os.remove(f)
-    except OSError:
-        pass
+        try:
+            os.remove(f)
+        except OSError:
+            pass
 
     def startBot(self):
         exitt = False
