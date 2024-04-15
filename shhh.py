@@ -27,6 +27,12 @@ class ShhBot:
     # Set the logging level to WARNING to ignore INFO and DEBUG logs
     httpx_logger.setLevel(logging.WARNING)
 
+    def removefile(self, f):
+    try:
+        os.remove(f)
+    except OSError:
+        pass
+
     def startBot(self):
         exitt = False
         if self.API_KEY == None:
@@ -135,9 +141,9 @@ class ShhBot:
                 return
 
             # Cleanup
-            os.remove(input_file)
-            os.remove(input_file+".wav")
-            os.remove(input_file+".wav.txt")
+            self.removefile(input_file)
+            self.removefile(input_file+".wav")
+            self.removefile(input_file+".wav.txt")
 
             # Download and process
             await file.download_to_drive(custom_path=input_file)
@@ -150,9 +156,9 @@ class ShhBot:
             result = open(input_file+".wav.txt", "r")
             text = result.read()
             result.close()
-            os.remove(input_file)
-            os.remove(input_file+".wav")
-            os.remove(input_file+".wav.txt")
+            self.removefile(input_file)
+            self.removefile(input_file+".wav")
+            self.removefile(input_file+".wav.txt")
             logging.log(logging.INFO,text)
             end = time.time()
             logline = str(end-start) + " " + username + " : " + str(update.effective_chat.id)  + " : SUCCESS : " + str(update.message.effective_attachment.duration)
