@@ -8,6 +8,7 @@ import time
 import dbm
 import uuid
 import re
+import shlex
 
 class ShhBot:
     API_KEY: str
@@ -139,8 +140,8 @@ class ShhBot:
             source_file = await file.download_to_drive(custom_path="/tmp/"+fileid)
             filename = str(source_file)
             outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
-            cmd = 'sh ./convert.sh '+self.my_escape(filename)
-            process = Popen(cmd.split(),  stdout=outfile, stderr=outfile,shell=True)
+            cmd = './convert.sh'
+            process = Popen([cmd, shlex.quote(filename)],  stdout=outfile, stderr=outfile,shell=True)
             process.wait()
             outfile.close()
 
