@@ -141,7 +141,7 @@ class ShhBot:
             filename = str(source_file)
             outfile = open('/tmp/convert.log','w') #same with "w" or "a" as opening mode
             cmd = './convert.sh'
-            process = Popen([cmd] + filename,  stdout=outfile, stderr=outfile,shell=True)
+            process = Popen([cmd, filename],  stdout=outfile, stderr=outfile,shell=True)
             process.wait()
             outfile.close()
 
