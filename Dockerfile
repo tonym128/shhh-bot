@@ -2,12 +2,12 @@
 FROM python:3.9.13-alpine as builder
 # Model
 # default to base
-# Options as per download-ggml-model.sh eg tiny, base, large-v1, large-v2, large-v2, 
+# Options as per download-ggml-model.sh - tiny.en tiny base.en base small.en small medium.en medium large-v1 large-v2 large-v3 large-v3-turbo
 WORKDIR /usr/local/src
 RUN apk update
 RUN apk add git make g++ vim wget --upgrade bash
 # whisper.cpp setup
-RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.5.4 --depth 1
+RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.1 --depth 1
 WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
