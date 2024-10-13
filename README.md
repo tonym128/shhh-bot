@@ -49,7 +49,7 @@ In the Dockerfile, you only need to change this line
         container_name: shhhbot
         hostname: shhhbot
         restart: unless-stopped
-        image: ghcr.io/tonym128/shhh-bot
+        image: ghcr.io/tonym128/shhh-bot:main
         environment:
         - SHHH_API_KEY={BOT_TOKEN}
         # Optional
