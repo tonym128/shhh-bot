@@ -88,12 +88,7 @@ nl specifies dutch in this case and the text will be output in Dutch.
 
 The volume mount provides a place to store the models seperately from the container.
 
-A few prebuilt images with a model supplied
-- ghcr.io/tonym128/shhh-bot
-- ghcr.io/tonym128/shhh-bot-base
-- ghcr.io/tonym128/shhh-bot-small
-
-Shhh-bot includes the tiny model, base and small include those models
+Shhh-bot includes the tiny model
 When a model is selected via the SHHH_WHISPER_MODEL it can be any of the default models supported by Whispers built in download functionality.
 The model is stored in /model and you can avoid having to download it multiple times using the persistence of a docker volume. Try out other models and switch back and forth between them, as long as you have the volume, you won't have to download it again.
 
