@@ -1,5 +1,5 @@
 # Whisper Builder image
-FROM python:3.9.13-alpine as builder
+FROM python:3.9.20-alpine as builder
 # Model
 # default to base
 # Options as per download-ggml-model.sh - tiny.en tiny base.en base small.en small medium.en medium large-v1 large-v2 large-v3 large-v3-turbo
@@ -33,7 +33,7 @@ RUN ln -s /models/ggml-$model.bin ./models/ggml-model.bin
 
 # Install python requirements
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN /usr/local/bin/python -m pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy shhh.bot to the container
 COPY shhh.py .
