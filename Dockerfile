@@ -7,7 +7,7 @@ WORKDIR /usr/local/src
 RUN apk update
 RUN apk add git make g++ vim wget --upgrade bash
 # whisper.cpp setup
-RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.1 --depth 1
+RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.5 --depth 1
 WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
