@@ -6,8 +6,11 @@ FROM python:3.9.13-alpine as builder
 WORKDIR /usr/local/src
 RUN apk update
 RUN apk add git make g++ vim wget --upgrade bash
+RUN apt install -y build-essential libsdl2-dev cmake git
+
 # whisper.cpp setup
 RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.5 --depth 1
+RUN set -e 
 WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
