@@ -6,7 +6,7 @@ FROM python:3.9.13-alpine as builder
 WORKDIR /usr/local/src
 RUN set -e 
 RUN apk update
-RUN apk add cmake build-essential git make g++ vim wget --upgrade bash
+RUN apk add cmake build-base git make g++ vim wget --upgrade bash
 
 # whisper.cpp setup
 RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.5 --depth 1
