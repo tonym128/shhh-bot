@@ -4,13 +4,12 @@ FROM python:3.9.13-alpine as builder
 # default to base
 # Options as per download-ggml-model.sh - tiny.en tiny base.en base small.en small medium.en medium large-v1 large-v2 large-v3 large-v3-turbo
 WORKDIR /usr/local/src
+RUN set -e 
 RUN apk update
-RUN apk add git make g++ vim wget --upgrade bash
-RUN apt install -y build-essential libsdl2-dev cmake git
+RUN apk add cmake build-essential git make g++ vim wget --upgrade bash
 
 # whisper.cpp setup
 RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.5 --depth 1
-RUN set -e 
 WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
