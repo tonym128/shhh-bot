@@ -24,8 +24,8 @@ RUN apk update && apk add wget dos2unix --no-cache ffmpeg --upgrade bash
 
 # Copy whisper binary and model downloader
 COPY --from=builder /usr/local/src/whisper.cpp/build/bin/whisper-cli whisper
-COPY --from=builder /usr/local/src/whisper.cpp/build/bin/libwhisper.so.1 libwhisper.so.1
-COPY --from=builder /usr/local/src/whisper.cpp/build/bin/libggml.so libggml.so
+COPY --from=builder /usr/local/src/whisper.cpp/build/src/libwhisper* .
+COPY --from=builder /usr/local/src/whisper.cpp/build/ggml/src/libggml* .
 COPY --from=builder /usr/local/src/whisper.cpp/models/download-ggml-model.sh ./models/download-ggml-model.sh
 COPY --from=builder /usr/local/src/whisper.cpp/models/download-ggml-model.sh /models/download-ggml-model.sh
 RUN dos2unix ./models/download-ggml-model.sh
