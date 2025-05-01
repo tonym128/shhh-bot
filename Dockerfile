@@ -20,7 +20,7 @@ LABEL org.opencontainers.image.title="Shhh-bot"
 LABEL org.opencontainers.image.source=https://github.com/tonym128/shhh-bot
 LABEL org.opencontainers.image.description=" A Telegram Bot to convert speech to text from small videos and audio files. "
 WORKDIR /usr/local/src/
-RUN apk update && apk add wget dos2unix --no-cache ffmpeg --upgrade bash
+RUN apk update && apk add wget dos2unix --no-cache ffmpeg build-base g++ --upgrade bash
 
 # Copy whisper binary and model downloader
 COPY --from=builder /usr/local/src/whisper.cpp/build/bin/whisper-cli whisper
