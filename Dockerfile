@@ -14,7 +14,7 @@ WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
 # Telegram Bot Image
-FROM python:3.9.13-alpine
+FROM python:3.9.20-alpine
 ARG model=tiny
 LABEL org.opencontainers.image.title="Shhh-bot"
 LABEL org.opencontainers.image.source=https://github.com/tonym128/shhh-bot
@@ -24,8 +24,8 @@ RUN apk update && apk add wget dos2unix --no-cache ffmpeg --upgrade bash
 
 # Copy whisper binary and model downloader
 COPY --from=builder /usr/local/src/whisper.cpp/build/bin/whisper-cli whisper
-COPY --from=builder /usr/local/src/whisper.cpp/build/src/libwhisper* .
-COPY --from=builder /usr/local/src/whisper.cpp/build/ggml/src/libggml* .
+COPY --from=builder /usr/local/src/whisper.cpp/build/src/libwhisper* /usr/local/lib/
+COPY --from=builder /usr/local/src/whisper.cpp/build/ggml/src/libggml* /usr/local/lib/
 COPY --from=builder /usr/local/src/whisper.cpp/models/download-ggml-model.sh ./models/download-ggml-model.sh
 COPY --from=builder /usr/local/src/whisper.cpp/models/download-ggml-model.sh /models/download-ggml-model.sh
 RUN dos2unix ./models/download-ggml-model.sh
