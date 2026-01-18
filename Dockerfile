@@ -1,5 +1,5 @@
 # Whisper Builder image
-FROM python:3.9.20-alpine as builder
+FROM python:3.9.25-alpine as builder
 # Model
 # default to base
 # Options as per download-ggml-model.sh - tiny.en tiny base.en base small.en small medium.en medium large-v1 large-v2 large-v3 large-v3-turbo
@@ -9,12 +9,12 @@ RUN apk update
 RUN apk add ccache cmake build-base git make g++ vim wget --upgrade bash
 
 # whisper.cpp setup
-RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.7.5 --depth 1
+RUN git clone https://github.com/ggerganov/whisper.cpp.git -b v1.8.3 --depth 1
 WORKDIR /usr/local/src/whisper.cpp
 RUN make 
 
 # Telegram Bot Image
-FROM python:3.9.20-alpine
+FROM python:3.9.25-alpine
 ARG model=tiny
 LABEL org.opencontainers.image.title="Shhh-bot"
 LABEL org.opencontainers.image.source=https://github.com/tonym128/shhh-bot
